@@ -1,0 +1,63 @@
+  /* Set the width of html and body to 100% */
+  html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Set the height and width of the map */
+  #map {
+    height: 50%;
+    width: 80%;
+    position: absolute;  /* Keep the map position as absolute */
+    z-index: 1;          /* Set a higher z-index to keep it above other elements */
+  }
+
+  #estimated-time {
+    position: absolute;
+    bottom: 300px;
+    left: 10px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+  
+  #route-steps {
+    position: absolute;
+    bottom: 180px;
+    left: 10px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    z-index: 1;
+  }
+  
+  #floating-panel {
+    position: absolute;
+    top: 10px;
+    left: 25%;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    text-align: center;
+    font-family: "Roboto", "sans-serif";
+    line-height: 30px;
+    padding-left: 10px;
+  }
+
+  @media screen and (max-height: 700px) {
+    #estimated-time {
+      bottom: 200px; /* 調整在小尺寸裝置上的位置 */
+      left: 10px;
+    }
+  }
+
+  @media screen and (max-height: 600px) {
+    #estimated-time {
+      bottom: 100px; /* 調整在小尺寸裝置上的位置 */
+      left: 10px;
+    }
+  }
