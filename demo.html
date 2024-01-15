@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Travel Itinerary Form</title>
+  <!-- 引入 Google Maps API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD42gsS8nSqanGQC9WN1VBXZ2wWGJfV9WQ&libraries=places"></script>
+  <!-- 引入你的 JavaScript 文件 -->
+  <script src="demo.js" defer></script>
+  <link rel="stylesheet" type="text/css" href="./demo_style.css" />
+</head>
+  <body>
+    <h1>Travel Itinerary Form</h1>
+    <!-- 旅行行程表單 -->
+    <form id="travel-form">
+       <!-- 地點 -->
+      <label for="start">Start:</label>
+      <input type="text" id="start" name="start" required>
+  
+      <label for="end">End:</label>
+      <input type="text" id="end" name="end" required>
+  
+      <!-- 日期 -->
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
+  
+      <!-- 提交按鈕 -->
+    <button id="saveButton" type="submit">Save Itinerary</button>
+    </form>
+  <!-- 顯示行程列表 -->
+  <h2>Travel Itineraries</h2>
+  <ul id="itinerary-list"></ul>
+
+  <!-- 用於編輯行程 -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <h3>Edit Itinerary</h3>
+      <table>
+        <tr>
+          <td><label for="edit-start">Start Location:</label></td>
+          <td><input type="text" id="edit-start" name="edit-start" required></td>
+        </tr>
+        <tr>
+          <td><label for="edit-end">End Location:</label></td>
+          <td><input type="text" id="edit-end" name="edit-end" required></td>
+        </tr>
+        <tr>
+          <td><label for="edit-date">Date:</label></td>
+          <td><input type="date" id="edit-date" name="edit-date" required></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  
+
+</body>
+</html>
