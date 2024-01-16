@@ -1,4 +1,6 @@
 let dateSelect; // Declare dateSelect globally
+let currentIndex = 0;
+let jsonData; // Define jsonData globally
 
 function initMap() {
   const directionsService = new google.maps.DirectionsService();
@@ -27,19 +29,17 @@ function initMap() {
           document.getElementById("itinerary-data").textContent = xhr.responseText;
 
           const itineraryScript = document.getElementById("itinerary-data");
-          let demoLocations;
-
           try {
-            demoLocations = JSON.parse(itineraryScript.textContent);
+            jsonData = JSON.parse(itineraryScript.textContent);
           } catch (jsonError) {
             console.error("Error parsing JSON:", jsonError);
-            demoLocations = [];
+            jsonData = [];
           }
 
           const locationSelect = document.getElementById("location");
           locationSelect.innerHTML = '';
 
-          demoLocations.forEach((entry) => {
+          jsonData.forEach((entry) => {
             const option = document.createElement("option");
             option.value = entry.location;
             option.textContent = `${entry.start} to ${entry.end}`;
@@ -60,38 +60,33 @@ function initMap() {
     }
   };
 
-
   xhr.open("GET", "itineraries.json", true);
   xhr.send();
 
+  function rotateMap(direction) {
+    if (direction === 'left') {
+      currentIndex = (currentIndex + 1) % jsonData.length;
+      document.getElementById('current-index').textContent = `Current Index: ${currentIndex}`;
+      calculateAndDisplayRoute();
+    }
+  }
+
   function calculateAndDisplayRoute() {
     const locationSelect = document.getElementById("location");
-    const dateSelect = document.getElementById("date");
-    const jsonData = JSON.parse(document.getElementById("itinerary-data").textContent);
-  
-    const selectedLocation = locationSelect.value;
-    const selectedDate = dateSelect.value;
-  
-    const selectedItinerary = jsonData.find((itinerary) => {
-      return itinerary.start === selectedLocation && itinerary.end === selectedEndLocation && itinerary.date === selectedDate;
-    });
-  
-    if (!selectedItinerary) {
-      window.alert("Selected itinerary not found.");
-      return;
-    }
-  
+
+    // Assuming the first entry in the JSON data is the selected itinerary
+    const selectedItinerary = jsonData[currentIndex];
+
     const startLocation = selectedItinerary.start;
     const endLocation = selectedItinerary.end;
-  
-    if (startLocation === undefined || endLocation === undefined) {
+
+    if (!startLocation || !endLocation) {
       window.alert("Invalid itinerary data. Start or end location is undefined.");
       return;
     }
-  
+
     const selectedMode = document.getElementById("mode").value;
- 
-  
+
     directionsService
       .route({
         origin: { query: startLocation },
@@ -100,20 +95,20 @@ function initMap() {
       })
       .then((response) => {
         directionsRenderer.setDirections(response);
-  
+
         const route = response.routes[0];
         if (route && route.legs && route.legs.length > 0) {
           const firstLeg = route.legs[0];
           const durationInSeconds = firstLeg.duration.value;
           const durationInMinutes = Math.ceil(durationInSeconds / 60);
-  
+
           document.getElementById("estimated-time").textContent = `Estimated travel time: ${durationInMinutes} minutes`;
-  
+
           const stepsContainer = document.getElementById("route-steps");
           if (selectedMode === "TRANSIT") {
             stepsContainer.style.display = "block";
             stepsContainer.innerHTML = "<strong>Route Steps:</strong><br>";
-  
+
             firstLeg.steps.forEach((step, index) => {
               const stepDescription = `${index + 1}. ${step.instructions}`;
               const stepElement = document.createElement("div");
@@ -128,7 +123,11 @@ function initMap() {
       .catch((error) => {
         window.alert("Directions request failed due to " + error);
       });
-  } 
+  }
+
+  document.getElementById("rotate-left-button").addEventListener("click", function () {
+    rotateMap('left');
+  });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
