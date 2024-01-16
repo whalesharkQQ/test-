@@ -23,10 +23,21 @@
       <option value="TRANSIT">Transit</option>
     </select>
   </div>
+
+  <div id="direction-buttons">
+    <button onclick="rotateMap('left')">Rotate Left</button>
+    <button onclick="rotateMap('right')">Rotate Right</button>
+    <button onclick="confirmDirection()">OK</button>
+  </div>
+
   <!-- Add a div to display estimated travel time -->
   <div id="estimated-time"></div>
   <div id="route-steps"></div>
+  <div id="current-index"></div>
   <div id="map"></div>
+
+
+
   
 
 
